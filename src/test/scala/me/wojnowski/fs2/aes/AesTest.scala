@@ -1,12 +1,13 @@
 package me.wojnowski.fs2.aes
 
-import cats.effect.IO
 import fs2.Stream
-import munit.CatsEffectSuite
-import munit.ScalaCheckSuite
-import org.scalacheck.Prop._
+
+import cats.effect.IO
 
 import javax.crypto.SecretKey
+
+import munit.CatsEffectSuite
+import munit.ScalaCheckSuite
 
 class AesTest extends CatsEffectSuite with ScalaCheckSuite {
   val key1: SecretKey = Aes.keyFromHex("c0e5c54c2a40c95b40d6e837a9c147d4cd7cadeccc555e679efed48f726a5fe5").get
@@ -40,16 +41,14 @@ class AesTest extends CatsEffectSuite with ScalaCheckSuite {
     }
   }
   test("Data larger than chunk size is decrypted properly") {
-    SecureRandomMock.ringBuffer[IO](randomBytes).flatMap { implicit secureRandom =>
-      for {
-        result <- Stream
-                    .emits(cipherText1)
-                    .covary[IO]
-                    .through(Aes.decrypt(key1))
-                    .compile
-                    .to(Array)
-      } yield assert(result.sameElements(plainText1))
-    }
+    for {
+      result <- Stream
+                  .emits(cipherText1)
+                  .covary[IO]
+                  .through(Aes.decrypt(key1))
+                  .compile
+                  .to(Array)
+    } yield assert(result.sameElements(plainText1))
   }
 
   test("Data smaller than chunk size is encrypted properly") {
@@ -66,43 +65,37 @@ class AesTest extends CatsEffectSuite with ScalaCheckSuite {
   }
 
   test("Data smaller than chunk size is decrypted properly") {
-    SecureRandomMock.ringBuffer[IO](randomBytes).flatMap { implicit secureRandom =>
-      for {
-        result <- Stream
-                    .emits(cipherText2)
-                    .covary[IO]
-                    .through(Aes.decrypt(key1))
-                    .compile
-                    .to(Array)
-      } yield assert(result.sameElements(plainText2))
-    }
+    for {
+      result <- Stream
+                  .emits(cipherText2)
+                  .covary[IO]
+                  .through(Aes.decrypt(key1))
+                  .compile
+                  .to(Array)
+    } yield assert(result.sameElements(plainText2))
   }
 
   test("Data can't be decrypted with another key") {
-    SecureRandomMock.ringBuffer[IO](randomBytes).flatMap { implicit secureRandom =>
-      for {
-        result <- Stream
-                    .emits(cipherText1)
-                    .covary[IO]
-                    .through(Aes.decrypt(key2))
-                    .compile
-                    .to(Array)
-                    .attempt
-      } yield assert(result.isLeft) // TODO checking the type of the error?
-    }
+    for {
+      result <- Stream
+                  .emits(cipherText1)
+                  .covary[IO]
+                  .through(Aes.decrypt(key2))
+                  .compile
+                  .to(Array)
+                  .attempt
+    } yield assert(result.isLeft) // TODO checking the type of the error?
   }
 
   test("Decrypting a stream of insufficient data fails") {
-    SecureRandomMock.ringBuffer[IO](randomBytes).flatMap { implicit secureRandom =>
-      for {
-        result <- Stream(42.toByte, -42.toByte)
-                    .covary[IO]
-                    .through(Aes.decrypt(key1))
-                    .compile
-                    .to(Array)
-                    .attempt
-      } yield assert(result.isLeft) // TODO checking the type of the error?
-    }
+    for {
+      result <- Stream(42.toByte, -42.toByte)
+                  .covary[IO]
+                  .through(Aes.decrypt(key1))
+                  .compile
+                  .to(Array)
+                  .attempt
+    } yield assert(result.isLeft) // TODO checking the type of the error?
   }
 
   test("Encrypting and decrypting empty data") {

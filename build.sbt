@@ -1,6 +1,36 @@
 ThisBuild / version := "0.1.0-SNAPSHOT"
 
-ThisBuild / scalaVersion := "2.13.10"
+val Scala213 = "2.13.10"
+val Scala3 = "3.2.2"
+
+ThisBuild / scalaVersion := Scala213
+
+ThisBuild / crossScalaVersions := Seq(Scala213, Scala3)
+
+ThisBuild / semanticdbEnabled := true
+ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
+
+inThisBuild(
+  List(
+    organization := "me.wojnowski",
+    homepage := Some(url("https://github.com/jwojnowski/fs2-aes")),
+    licenses := List("MIT License" -> url("https://opensource.org/licenses/MIT")),
+    developers := List(
+      Developer(
+        "jwojnowski",
+        "Jakub Wojnowski",
+        "29680262+jwojnowski@users.noreply.github.com",
+        url("https://github.com/jwojnowski")
+      )
+    ),
+    sonatypeCredentialHost := "s01.oss.sonatype.org",
+    sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+  )
+)
+
+val commonSettings = Seq(
+  makePom / publishArtifact := true
+)
 
 lazy val root = (project in file("."))
   .settings(
@@ -11,6 +41,7 @@ lazy val root = (project in file("."))
       "org.scalameta" %% "munit-scalacheck"    % "0.7.29" % Test,
       "org.typelevel" %% "munit-cats-effect-3" % "1.0.7"  % Test,
       "org.typelevel" %% "scalacheck-effect-munit" % "1.0.4" % Test
-
     )
   )
+
+ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"

@@ -1,14 +1,17 @@
 package me.wojnowski.fs2.aes
 
-import cats.effect.IO
 import fs2.Stream
-import munit.CatsEffectSuite
-import munit.ScalaCheckEffectSuite
+
+import cats.effect.IO
+
 import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalacheck.effect.PropF.forAllF
 
 import javax.crypto.SecretKey
+
+import munit.CatsEffectSuite
+import munit.ScalaCheckEffectSuite
 
 class AesPropertyTest extends CatsEffectSuite with ScalaCheckEffectSuite {
 

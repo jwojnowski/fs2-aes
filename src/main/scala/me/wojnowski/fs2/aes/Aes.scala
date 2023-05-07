@@ -1,34 +1,36 @@
 package me.wojnowski.fs2.aes
 
-import cats.effect.Sync
-import cats.effect.std.SecureRandom
 import fs2.Chunk
 import fs2.Pipe
 import fs2.Pull
 import fs2.RaiseThrowable
 import fs2.Stream
 
+import cats.effect.Sync
+import cats.effect.std.SecureRandom
+import cats.syntax.all._
+
+import scala.util.Try
+import scala.util.control.NonFatal
+
 import java.nio.ByteBuffer
+
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
-import scala.util.Try
-import scala.util.control.NoStackTrace
-import scala.util.control.NonFatal
-import cats.syntax.all._
 
 object Aes {
 
   private[aes] val IntSizeInBytes     = 4
   private[aes] val IvLengthBytes      = 12
   private[aes] val AuthTagLengthBytes = 16
-  private val DefaultChunkSize   = 4 * 1024 * 1024
+  private val DefaultChunkSize        = 4 * 1024 * 1024
 
   private val transformation = "AES/GCM/NoPadding"
   private val keyAlgorithm   = "AES"
 
-  def decrypt[F[_]: Sync: SecureRandom](key: SecretKey): Pipe[F, Byte, Byte] =
+  def decrypt[F[_]: Sync](key: SecretKey): Pipe[F, Byte, Byte] =
     (stream: Stream[F, Byte]) =>
       readFirstN(IntSizeInBytes, stream) { (chunkSizeBytes, remainingStream) =>
         val chunkSize = bytesToChunkSize(chunkSizeBytes)
@@ -72,7 +74,7 @@ object Aes {
 
   private type Mode = Int
 
-  private def createCipher[F[_]: Sync: SecureRandom](mode: Mode, key: SecretKey, ivBytes: Array[Byte]): F[Cipher] =
+  private def createCipher[F[_]: Sync](mode: Mode, key: SecretKey, ivBytes: Array[Byte]): F[Cipher] =
     Sync[F].delay {
       val cipher = Cipher.getInstance(transformation)
       cipher.init(mode, key, new GCMParameterSpec(AuthTagLengthBytes * 8, ivBytes))

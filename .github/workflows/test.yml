@@ -1,0 +1,24 @@
+name: Test
+
+on:
+  workflow_dispatch:
+  push:
+    tags-ignore:
+      - "*"
+    branches:
+      - "*"
+
+jobs:
+
+  build:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        scala: [ 3.2.2 ]
+        java: [ graalvm-ce-java17@22.3.0 ]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Compile and test
+        run: sbt +test scalafmtCheckAll scalafixAll --check
