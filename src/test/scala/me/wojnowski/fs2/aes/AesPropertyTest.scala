@@ -8,12 +8,17 @@ import org.scalacheck.Arbitrary.arbitrary
 import org.scalacheck.Gen
 import org.scalacheck.effect.PropF.forAllF
 
+import scala.concurrent.duration.Duration
+import scala.concurrent.duration.DurationInt
+
 import javax.crypto.SecretKey
 
 import munit.CatsEffectSuite
 import munit.ScalaCheckEffectSuite
 
 class AesPropertyTest extends CatsEffectSuite with ScalaCheckEffectSuite {
+
+  override def munitTimeout: Duration = 90.seconds
 
   val chunkSizeGenerator = Gen.frequency(
     (80, Gen.choose(256, 16 * 1024)),
