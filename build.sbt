@@ -1,5 +1,3 @@
-ThisBuild / version := "0.1.0-SNAPSHOT"
-
 val Scala213 = "2.13.10"
 val Scala3 = "3.2.2"
 
