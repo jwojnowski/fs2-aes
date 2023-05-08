@@ -6,6 +6,8 @@ This is a micro library providing AES encryption/decryption of `fs2.Stream[F, By
 
 It uses AES GCM (Galois/Counter Mode) without padding.
 
+It is published for Scala 2.13.x and 3.x and uses (and builds on) Cats Effect 3 and fs2 3.
+
 ## Getting started
 
 ### Adding the dependency to SBT
