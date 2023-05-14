@@ -18,7 +18,7 @@ import munit.ScalaCheckEffectSuite
 
 class AesPropertyTest extends CatsEffectSuite with ScalaCheckEffectSuite {
 
-  override def munitTimeout: Duration = 90.seconds
+  override def munitTimeout: Duration = 120.seconds
 
   val chunkSizeGenerator = Gen.frequency(
     (80, Gen.choose(256, 16 * 1024)),

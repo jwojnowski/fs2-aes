@@ -125,3 +125,6 @@ The encrypted stream consist of:
    3. Authentication Tag [16 bytes]
 
 Therefore, the resulting stream/file size will increase by 4 bytes and 28 bytes per each chunk.
+
+## Binary compatibility
+This projects keeps early semver versioning, so only bugfix releases are binary compatible.
