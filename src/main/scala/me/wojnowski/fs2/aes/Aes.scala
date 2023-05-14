@@ -20,7 +20,7 @@ import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
 
-object Aes {
+object Aes extends AesKeyGenerator {
 
   private[aes] val IntSizeInBytes     = 4
   private[aes] val IvLengthBytes      = 12

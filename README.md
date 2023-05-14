@@ -75,6 +75,7 @@ val decryptedStreamOfBytes = streamOfBytes.through(Aes.decrypt(key))
 ```
 
 ## SecretKey utilities
+### Reading keys
 There's a handy `keyFromHex` method provided:
 
 ```scala
@@ -83,6 +84,25 @@ import me.wojnowski.fs2.aes.Aes
 val maybeKey: Option[SecretKey] =
   Aes.keyFromHex("8460623cf2eb7059f5a2f653513cfe66d9c21196a330414d4b3bf1f3f838d884") 
 
+```
+
+### Generating keys
+`Aes.generateKeyHexString[IO]` method might be used to generate a key like in a following example:
+```scala
+import cats.effect.IO
+import cats.effect.IOApp
+import cats.effect.std.SecureRandom
+
+object KeyGenerator extends IOApp.Simple {
+
+  override def run: IO[Unit] =
+    for {
+      secureRandom <- SecureRandom.javaSecuritySecureRandom[IO]
+      key          <- Aes.generateKeyHexString[IO](256)(secureRandom, implicitly)
+      _            <- IO.println(s"😱 Secret: $key")
+    } yield ()
+
+}
 ```
 
 ## Chunk size
