@@ -7,6 +7,7 @@ ThisBuild / crossScalaVersions := Seq(Scala213, Scala3)
 
 ThisBuild / semanticdbEnabled := true
 ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
+ThisBuild / crossPaths := true
 
 inThisBuild(
   List(

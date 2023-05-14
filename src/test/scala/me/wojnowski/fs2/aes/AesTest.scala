@@ -9,7 +9,7 @@ import javax.crypto.SecretKey
 import munit.CatsEffectSuite
 import munit.ScalaCheckSuite
 
-class AesTest extends CatsEffectSuite with ScalaCheckSuite {
+class AesTest extends CatsEffectSuite with ScalaCheckSuite with ResourceReader {
   val key1: SecretKey = Aes.keyFromHex("c0e5c54c2a40c95b40d6e837a9c147d4cd7cadeccc555e679efed48f726a5fe5").get
   val key2: SecretKey = Aes.keyFromHex("8460623cf2eb7059f5a2f653513cfe66d9c21196a330414d4b3bf1f3f838d884").get
 
@@ -113,6 +113,4 @@ class AesTest extends CatsEffectSuite with ScalaCheckSuite {
     }
   }
 
-  private def readResource(filename: String) =
-    getClass.getClassLoader.getResourceAsStream(filename).readAllBytes()
 }
