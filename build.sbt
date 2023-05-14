@@ -1,5 +1,5 @@
 val Scala213 = "2.13.10"
-val Scala3 = "3.2.2"
+val Scala3   = "3.2.2"
 
 ThisBuild / scalaVersion := Scala213
 
@@ -7,14 +7,14 @@ ThisBuild / crossScalaVersions := Seq(Scala213, Scala3)
 
 ThisBuild / semanticdbEnabled := true
 ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
-ThisBuild / crossPaths := true
+ThisBuild / crossPaths        := true
 
 inThisBuild(
   List(
-    organization := "me.wojnowski",
-    homepage := Some(url("https://github.com/jwojnowski/fs2-aes")),
-    licenses := List("MIT License" -> url("https://opensource.org/licenses/MIT")),
-    developers := List(
+    organization           := "me.wojnowski",
+    homepage               := Some(url("https://github.com/jwojnowski/fs2-aes")),
+    licenses               := List("MIT License" -> url("https://opensource.org/licenses/MIT")),
+    developers             := List(
       Developer(
         "jwojnowski",
         "Jakub Wojnowski",
@@ -23,7 +23,8 @@ inThisBuild(
       )
     ),
     sonatypeCredentialHost := "s01.oss.sonatype.org",
-    sonatypeRepository := "https://s01.oss.sonatype.org/service/local"
+    sonatypeRepository     := "https://s01.oss.sonatype.org/service/local",
+    versionScheme := Some("early-semver")
   )
 )
 
@@ -35,12 +36,14 @@ lazy val root = (project in file("."))
   .settings(
     name := "fs2-aes",
     libraryDependencies ++= Seq(
-      "co.fs2"        %% "fs2-core"            % "3.6.1",
-      "org.scalameta" %% "munit"               % "0.7.29" % Test,
-      "org.scalameta" %% "munit-scalacheck"    % "0.7.29" % Test,
-      "org.typelevel" %% "munit-cats-effect-3" % "1.0.7"  % Test,
-      "org.typelevel" %% "scalacheck-effect-munit" % "1.0.4" % Test
+      "co.fs2"        %% "fs2-core"                % "3.6.1",
+      "org.scalameta" %% "munit"                   % "0.7.29" % Test,
+      "org.scalameta" %% "munit-scalacheck"        % "0.7.29" % Test,
+      "org.typelevel" %% "munit-cats-effect-3"     % "1.0.7"  % Test,
+      "org.typelevel" %% "scalacheck-effect-munit" % "1.0.4"  % Test
     )
   )
 
 ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
+
+ThisBuild / mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% moduleName.value % _).toSet
