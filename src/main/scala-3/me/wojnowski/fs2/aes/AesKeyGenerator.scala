@@ -1,6 +1,5 @@
 package me.wojnowski.fs2.aes
 
-import cats.ApplicativeError
 import cats.effect.std.SecureRandom
 import cats.syntax.all._
 import cats.Functor
