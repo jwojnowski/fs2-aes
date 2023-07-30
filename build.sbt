@@ -44,6 +44,4 @@ lazy val root = (project in file("."))
     )
   )
 
-ThisBuild / scalafixDependencies += "com.github.liancheng" %% "organize-imports" % "0.6.0"
-
 ThisBuild / mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% moduleName.value % _).toSet
