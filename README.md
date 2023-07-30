@@ -1,6 +1,7 @@
 # fs2-aes
 [![License](http://img.shields.io/:license-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Maven Central](https://img.shields.io/maven-central/v/me.wojnowski/fs2-aes_3.svg?color=blue)](https://search.maven.org/search?q=fs2-aes)
+[![Known Vulnerabilities](https://snyk.io/test/github/jwojnowski/fs2-aes/badge.svg)](https://snyk.io/test/github/jwojnowski/fs2-aes)
 
 This is a micro library providing AES encryption/decryption of `fs2.Stream[F, Byte]`.
 
