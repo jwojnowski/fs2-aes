@@ -14,11 +14,13 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        scala: [ 3.2.2 ]
-        java: [ graalvm-ce-java17@22.3.0 ]
+        scala: [ 3.3.1 ]
+        java: [ graalvm-ce-java17@22.3.3 ]
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Compile and test
         run: sbt "+test; scalafmtCheckAll; scalafixAll --check; +mimaReportBinaryIssues"
