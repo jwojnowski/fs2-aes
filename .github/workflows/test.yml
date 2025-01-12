@@ -22,6 +22,8 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - name: Setup sbt
+        uses: sbt/setup-sbt@v1
       - name: Compile and test
         run: sbt "+test; scalafmtCheckAll; scalafixAll --check; +mimaReportBinaryIssues"
