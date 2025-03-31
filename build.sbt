@@ -36,7 +36,7 @@ lazy val root = (project in file("."))
   .settings(
     name := "fs2-aes",
     libraryDependencies ++= Seq(
-      "co.fs2"        %% "fs2-core"                % "3.11.0",
+      "co.fs2"        %% "fs2-core"                % "3.12.0",
       "org.scalameta" %% "munit"                   % "1.1.0"    % Test,
       "org.scalameta" %% "munit-scalacheck"        % "1.1.0"    % Test,
       "org.typelevel" %% "munit-cats-effect"       % "2.0.0"    % Test,
