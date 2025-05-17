@@ -1,8 +1,8 @@
 package me.wojnowski.fs2.aes
 
-import cats.effect.std.SecureRandom
-import cats.syntax.all._
 import cats.Functor
+import cats.effect.std.SecureRandom
+import cats.syntax.all.*
 
 trait AesKeyGenerator {
 
