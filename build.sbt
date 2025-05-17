@@ -1,7 +1,8 @@
 val Scala213 = "2.13.16"
 val Scala3   = "3.7.0"
 
-ThisBuild / scalaVersion := Scala213
+ThisBuild / tlBaseVersion := "0.13"
+ThisBuild / scalaVersion  := Scala213
 
 ThisBuild / crossScalaVersions := Seq(Scala213, Scala3)
 
@@ -9,23 +10,17 @@ ThisBuild / semanticdbEnabled := true
 ThisBuild / semanticdbVersion := scalafixSemanticdb.revision
 ThisBuild / crossPaths        := true
 
-inThisBuild(
-  List(
-    organization           := "me.wojnowski",
-    homepage               := Some(url("https://github.com/jwojnowski/fs2-aes")),
-    licenses               := List("MIT License" -> url("https://opensource.org/licenses/MIT")),
-    developers             := List(
-      Developer(
-        "jwojnowski",
-        "Jakub Wojnowski",
-        "29680262+jwojnowski@users.noreply.github.com",
-        url("https://github.com/jwojnowski")
-      )
-    ),
-    sonatypeCredentialHost := "s01.oss.sonatype.org",
-    sonatypeRepository     := "https://s01.oss.sonatype.org/service/local",
-    versionScheme          := Some("early-semver")
-  )
+ThisBuild / tlCiReleaseBranches        := Seq()
+ThisBuild / tlCiHeaderCheck            := false
+ThisBuild / tlCiScalafixCheck          := true
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("11"), JavaSpec.temurin("21"))
+ThisBuild / tlJdkRelease               := Some(11)
+
+ThisBuild / organization  := "me.wojnowski"
+ThisBuild / versionScheme := Some("early-semver")
+ThisBuild / licenses      := Seq(License.MIT)
+ThisBuild / developers    := List(
+  tlGitHubDev("jwojnowski", "Jakub Wojnowski")
 )
 
 val commonSettings = Seq(
@@ -43,5 +38,3 @@ lazy val root = (project in file("."))
       "org.typelevel" %% "scalacheck-effect-munit" % "2.0.0-M2" % Test
     )
   )
-
-ThisBuild / mimaPreviousArtifacts := previousStableVersion.value.map(organization.value %% moduleName.value % _).toSet
