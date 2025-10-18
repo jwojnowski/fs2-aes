@@ -27,14 +27,21 @@ val commonSettings = Seq(
   makePom / publishArtifact := true
 )
 
-lazy val root = (project in file("."))
-  .settings(
-    name := "fs2-aes",
-    libraryDependencies ++= Seq(
-      "co.fs2"        %% "fs2-core"                % "3.12.0",
-      "org.scalameta" %% "munit"                   % "1.1.1"    % Test,
-      "org.scalameta" %% "munit-scalacheck"        % "1.1.0"    % Test,
-      "org.typelevel" %% "munit-cats-effect"       % "2.1.0"    % Test,
-      "org.typelevel" %% "scalacheck-effect-munit" % "2.0.0-M2" % Test
+lazy val core =
+  crossProject(JVMPlatform, JSPlatform)
+    .withoutSuffixFor(JVMPlatform)
+    .crossType(CrossType.Full)
+    .in(file("."))
+    .settings(
+      name := "fs2-aes",
+      libraryDependencies ++= Seq(
+        "co.fs2"        %%% "fs2-core"                % "3.12.0",
+        "org.scalameta" %%% "munit"                   % "1.1.1"    % Test,
+        "org.scalameta" %%% "munit-scalacheck"        % "1.1.0"    % Test,
+        "org.typelevel" %%% "munit-cats-effect"       % "2.1.0"    % Test,
+        "org.typelevel" %%% "scalacheck-effect-munit" % "2.0.0-M2" % Test
+      )
     )
-  )
+    .jsSettings(
+      scalaJSLinkerConfig ~= { _.withModuleKind(ModuleKind.ESModule) }
+    )
