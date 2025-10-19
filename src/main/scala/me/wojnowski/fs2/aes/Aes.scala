@@ -39,7 +39,7 @@ object Aes extends AesKeyGenerator {
           .chunkN(IvLengthBytes + chunkSize + AuthTagLengthBytes)
           .flatMap { chunk =>
             readFirstN(IvLengthBytes, Stream.chunk(chunk).covary[F]) { (ivChunk, stream) =>
-              Stream.eval(createCipher(Cipher.DECRYPT_MODE, key, ivChunk.toArray)).flatMap { cipher =>
+              Stream.eval(createCipher[F](Cipher.DECRYPT_MODE, key, ivChunk.toArray)).flatMap { cipher =>
                 stream.mapChunks(cipherChunk(cipher, _))
               }
             }
@@ -94,7 +94,7 @@ object Aes extends AesKeyGenerator {
         case Some((chunk, stream)) =>
           f(chunk, stream).pull.echo
         case None                  =>
-          Pull.raiseError(Error.DataTooShort)
+          Pull.raiseError[F](Error.DataTooShort)
       }
       .stream
 
