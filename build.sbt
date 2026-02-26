@@ -13,8 +13,8 @@ ThisBuild / crossPaths        := true
 ThisBuild / tlCiReleaseBranches        := Seq()
 ThisBuild / tlCiHeaderCheck            := false
 ThisBuild / tlCiScalafixCheck          := true
-ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("11"), JavaSpec.temurin("21"))
-ThisBuild / tlJdkRelease               := Some(11)
+ThisBuild / githubWorkflowJavaVersions := Seq(JavaSpec.temurin("21"))
+ThisBuild / tlJdkRelease               := Some(21)
 
 ThisBuild / organization  := "me.wojnowski"
 ThisBuild / versionScheme := Some("early-semver")
